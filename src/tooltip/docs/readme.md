@@ -33,9 +33,9 @@ provided hide triggers:
 For any non-supported value, the trigger will be used to both show and hide the
 tooltip.
 
-**$tooltipProvider**
+**$uiTooltipProvider**
 
-Through the `$tooltipProvider`, you can change the way tooltips and popovers
+Through the `$uiTooltipProvider`, you can change the way tooltips and popovers
 behave by default; the attributes above always take precedence. The following
 methods are available:
 

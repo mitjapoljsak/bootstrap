@@ -45,9 +45,9 @@ angular.module('ui.bootstrap.demo', ['ui.bootstrap', 'plunker', 'ngTouch'], func
 
 var builderUrl = "http://50.116.42.77:3001";
 
-function MainCtrl($scope, $http, $document, $modal, orderByFilter) {
+function MainCtrl($scope, $http, $document, $uiModal, orderByFilter) {
   $scope.showBuildModal = function() {
-    var modalInstance = $modal.open({
+    var modalInstance = $uiModal.open({
       templateUrl: 'buildModal.html',
       controller: 'SelectModulesCtrl',
       resolve: {
@@ -62,14 +62,14 @@ function MainCtrl($scope, $http, $document, $modal, orderByFilter) {
   };
 
   $scope.showDownloadModal = function() {
-    var modalInstance = $modal.open({
+    var modalInstance = $uiModal.open({
       templateUrl: 'downloadModal.html',
       controller: 'DownloadCtrl'
     });
   };
 }
 
-var SelectModulesCtrl = function($scope, $modalInstance, modules, buildFilesService) {
+var SelectModulesCtrl = function($scope, $uiModalInstance, modules, buildFilesService) {
   $scope.selectedModules = [];
   $scope.modules = modules;
 
@@ -82,11 +82,11 @@ var SelectModulesCtrl = function($scope, $modalInstance, modules, buildFilesServ
   };
 
   $scope.downloadBuild = function () {
-    $modalInstance.close($scope.selectedModules);
+    $uiModalInstance.close($scope.selectedModules);
   };
 
   $scope.cancel = function () {
-    $modalInstance.dismiss();
+    $uiModalInstance.dismiss();
   };
 
   $scope.isOldBrowser = function () {
@@ -208,7 +208,7 @@ var SelectModulesCtrl = function($scope, $modalInstance, modules, buildFilesServ
   };
 };
 
-var DownloadCtrl = function($scope, $modalInstance) {
+var DownloadCtrl = function($scope, $uiModalInstance) {
   $scope.options = {
     minified: true,
     tpls: true
@@ -231,7 +231,7 @@ var DownloadCtrl = function($scope, $modalInstance) {
   };
 
   $scope.cancel = function () {
-    $modalInstance.dismiss();
+    $uiModalInstance.dismiss();
   };
 };
 

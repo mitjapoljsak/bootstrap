@@ -55,7 +55,7 @@ angular.module('ui.bootstrap.modal', ['ui.bootstrap.transition'])
   })
 
 /**
- * A helper directive for the $modal service. It creates a backdrop element.
+ * A helper directive for the $uiModal service. It creates a backdrop element.
  */
   .directive('modalBackdrop', ['$timeout', function ($timeout) {
     return {
@@ -75,7 +75,7 @@ angular.module('ui.bootstrap.modal', ['ui.bootstrap.transition'])
     };
   }])
 
-  .directive('modalWindow', ['$modalStack', '$timeout', function ($modalStack, $timeout) {
+  .directive('modalWindow', ['$uiModalStack', '$timeout', function ($uiModalStack, $timeout) {
     return {
       restrict: 'EA',
       scope: {
@@ -109,11 +109,11 @@ angular.module('ui.bootstrap.modal', ['ui.bootstrap.transition'])
         });
 
         scope.close = function (evt) {
-          var modal = $modalStack.getTop();
+          var modal = $uiModalStack.getTop();
           if (modal && modal.value.backdrop && modal.value.backdrop != 'static' && (evt.target === evt.currentTarget)) {
             evt.preventDefault();
             evt.stopPropagation();
-            $modalStack.dismiss(modal.key, 'backdrop click');
+            $uiModalStack.dismiss(modal.key, 'backdrop click');
           }
         };
       }
@@ -131,14 +131,14 @@ angular.module('ui.bootstrap.modal', ['ui.bootstrap.transition'])
     };
   })
 
-  .factory('$modalStack', ['$transition', '$timeout', '$document', '$compile', '$rootScope', '$$stackedMap',
+  .factory('$uiModalStack', ['$transition', '$timeout', '$document', '$compile', '$rootScope', '$$stackedMap',
     function ($transition, $timeout, $document, $compile, $rootScope, $$stackedMap) {
 
       var OPENED_MODAL_CLASS = 'modal-open';
 
       var backdropDomEl, backdropScope;
       var openedWindows = $$stackedMap.createNew();
-      var $modalStack = {};
+      var $uiModalStack = {};
 
       function backdropIndex() {
         var topBackdropIndex = -1;
@@ -226,13 +226,13 @@ angular.module('ui.bootstrap.modal', ['ui.bootstrap.transition'])
           if (modal && modal.value.keyboard) {
             evt.preventDefault();
             $rootScope.$apply(function () {
-              $modalStack.dismiss(modal.key, 'escape key press');
+              $uiModalStack.dismiss(modal.key, 'escape key press');
             });
           }
         }
       });
 
-      $modalStack.open = function (modalInstance, modal) {
+      $uiModalStack.open = function (modalInstance, modal) {
 
         openedWindows.add(modalInstance, {
           deferred: modal.deferred,
@@ -268,7 +268,7 @@ angular.module('ui.bootstrap.modal', ['ui.bootstrap.transition'])
         body.addClass(OPENED_MODAL_CLASS);
       };
 
-      $modalStack.close = function (modalInstance, result) {
+      $uiModalStack.close = function (modalInstance, result) {
         var modalWindow = openedWindows.get(modalInstance);
         if (modalWindow) {
           modalWindow.value.deferred.resolve(result);
@@ -276,7 +276,7 @@ angular.module('ui.bootstrap.modal', ['ui.bootstrap.transition'])
         }
       };
 
-      $modalStack.dismiss = function (modalInstance, reason) {
+      $uiModalStack.dismiss = function (modalInstance, reason) {
         var modalWindow = openedWindows.get(modalInstance);
         if (modalWindow) {
           modalWindow.value.deferred.reject(reason);
@@ -284,7 +284,7 @@ angular.module('ui.bootstrap.modal', ['ui.bootstrap.transition'])
         }
       };
 
-      $modalStack.dismissAll = function (reason) {
+      $uiModalStack.dismissAll = function (reason) {
         var topModal = this.getTop();
         while (topModal) {
           this.dismiss(topModal.key, reason);
@@ -292,24 +292,24 @@ angular.module('ui.bootstrap.modal', ['ui.bootstrap.transition'])
         }
       };
 
-      $modalStack.getTop = function () {
+      $uiModalStack.getTop = function () {
         return openedWindows.top();
       };
 
-      return $modalStack;
+      return $uiModalStack;
     }])
 
-  .provider('$modal', function () {
+  .provider('$uiModal', function () {
 
-    var $modalProvider = {
+    var $uiModalProvider = {
       options: {
         backdrop: true, //can be also false or 'static'
         keyboard: true
       },
-      $get: ['$injector', '$rootScope', '$q', '$http', '$templateCache', '$controller', '$modalStack',
-        function ($injector, $rootScope, $q, $http, $templateCache, $controller, $modalStack) {
+      $get: ['$injector', '$rootScope', '$q', '$http', '$templateCache', '$controller', '$uiModalStack',
+        function ($injector, $rootScope, $q, $http, $templateCache, $controller, $uiModalStack) {
 
-          var $modal = {};
+          var $uiModal = {};
 
           function getTemplatePromise(options) {
             return options.template ? $q.when(options.template) :
@@ -329,7 +329,7 @@ angular.module('ui.bootstrap.modal', ['ui.bootstrap.transition'])
             return promisesArr;
           }
 
-          $modal.open = function (modalOptions) {
+          $uiModal.open = function (modalOptions) {
 
             var modalResultDeferred = $q.defer();
             var modalOpenedDeferred = $q.defer();
@@ -339,15 +339,15 @@ angular.module('ui.bootstrap.modal', ['ui.bootstrap.transition'])
               result: modalResultDeferred.promise,
               opened: modalOpenedDeferred.promise,
               close: function (result) {
-                $modalStack.close(modalInstance, result);
+                $uiModalStack.close(modalInstance, result);
               },
               dismiss: function (reason) {
-                $modalStack.dismiss(modalInstance, reason);
+                $uiModalStack.dismiss(modalInstance, reason);
               }
             };
 
             //merge and clean up options
-            modalOptions = angular.extend({}, $modalProvider.options, modalOptions);
+            modalOptions = angular.extend({}, $uiModalProvider.options, modalOptions);
             modalOptions.resolve = modalOptions.resolve || {};
 
             //verify options
@@ -371,7 +371,7 @@ angular.module('ui.bootstrap.modal', ['ui.bootstrap.transition'])
               //controllers
               if (modalOptions.controller) {
                 ctrlLocals.$scope = modalScope;
-                ctrlLocals.$modalInstance = modalInstance;
+                ctrlLocals.$uiModalInstance = modalInstance;
                 angular.forEach(modalOptions.resolve, function (value, key) {
                   ctrlLocals[key] = tplAndVars[resolveIter++];
                 });
@@ -382,7 +382,7 @@ angular.module('ui.bootstrap.modal', ['ui.bootstrap.transition'])
                 }
               }
 
-              $modalStack.open(modalInstance, {
+              $uiModalStack.open(modalInstance, {
                 scope: modalScope,
                 deferred: modalResultDeferred,
                 content: tplAndVars[0],
@@ -407,9 +407,9 @@ angular.module('ui.bootstrap.modal', ['ui.bootstrap.transition'])
             return modalInstance;
           };
 
-          return $modal;
+          return $uiModal;
         }]
     };
 
-    return $modalProvider;
+    return $uiModalProvider;
   });

@@ -276,7 +276,7 @@ _This release adds AngularJS 1.2 support_
 ## Features
 
 - **modal:** 
-  - expose dismissAll on $modalStack ([bc8d21c1](http://github.com/angular-ui/bootstrap/commit/bc8d21c1))   
+  - expose dismissAll on $uiModalStack ([bc8d21c1](http://github.com/angular-ui/bootstrap/commit/bc8d21c1))   
 
 ## Bug Fixes
 
@@ -453,7 +453,7 @@ _This release adds Bootstrap3 support_
 ## Features
 
 - **modal:** 
-  - rewrite $dialog as $modal ([d7a48523](http://github.com/angular-ui/bootstrap/commit/d7a48523))  
+  - rewrite $dialog as $uiModal ([d7a48523](http://github.com/angular-ui/bootstrap/commit/d7a48523))  
   - add support for custom window settings ([015625d1](http://github.com/angular-ui/bootstrap/commit/015625d1))  
   - expose $close and $dismiss options on modal's scope ([8d153acb](http://github.com/angular-ui/bootstrap/commit/8d153acb))  
 - **pagination:** 
@@ -473,7 +473,7 @@ _This release adds Bootstrap3 support_
   - use $setViewValue for inner changes ([dd99f35d](http://github.com/angular-ui/bootstrap/commit/dd99f35d))
 - **modal:**
   - insert backdrop before modal window ([d870f212](http://github.com/angular-ui/bootstrap/commit/d870f212))
-  - ie8 fix after $modal rewrite ([ff9d969e](http://github.com/angular-ui/bootstrap/commit/ff9d969e))
+  - ie8 fix after $uiModal rewrite ([ff9d969e](http://github.com/angular-ui/bootstrap/commit/ff9d969e))
   - opening a modal should not change default options ([82532d1b](http://github.com/angular-ui/bootstrap/commit/82532d1b))
   - backdrop should cover previously opened modals ([7fce2fe8](http://github.com/angular-ui/bootstrap/commit/7fce2fe8))
   - allow replacing object with default options ([8e7fbf06](http://github.com/angular-ui/bootstrap/commit/8e7fbf06))
@@ -498,10 +498,10 @@ _This release adds Bootstrap3 support_
 
 - **modal:**
 
-* `$dialog` service was refactored into `$modal`
-* `modal` directive was removed - use the `$modal` service instead
+* `$dialog` service was refactored into `$uiModal`
+* `modal` directive was removed - use the `$uiModal` service instead
 
-Check the documentation for the `$modal` service to migrate from `$dialog`
+Check the documentation for the `$uiModal` service to migrate from `$dialog`
 
 - **pagination:** 
  API has undergone some changes in order to be easier to use.
@@ -742,7 +742,7 @@ The placment='mouse' is gone with no equivalent
   - support typeahead-loading bindable expression ([b58c9c88](https://github.com/angular-ui/bootstrap/commit/b58c9c88))
 - **tooltip:**
   - added popup-delay option ([a79a2ba8](https://github.com/angular-ui/bootstrap/commit/a79a2ba8))
-  - added appendToBody to $tooltip ([1ee467f8](https://github.com/angular-ui/bootstrap/commit/1ee467f8))
+  - added appendToBody to $uiTooltip ([1ee467f8](https://github.com/angular-ui/bootstrap/commit/1ee467f8))
   - added tooltip-html-unsafe directive ([45ed2805](https://github.com/angular-ui/bootstrap/commit/45ed2805))
   - support for custom triggers ([b1ba821b](https://github.com/angular-ui/bootstrap/commit/b1ba821b))
 

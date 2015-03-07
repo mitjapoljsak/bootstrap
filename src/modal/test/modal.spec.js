@@ -1,6 +1,6 @@
-describe('$modal', function () {
+describe('$uiModal', function () {
   var $controllerProvider, $rootScope, $document, $compile, $templateCache, $timeout, $q;
-  var $modal, $modalProvider;
+  var $uiModal, $uiModalProvider;
 
   var triggerKeyDown = function (element, keyCode) {
     var e = $.Event('keydown');
@@ -19,19 +19,19 @@ describe('$modal', function () {
   beforeEach(module('ui.bootstrap.modal'));
   beforeEach(module('template/modal/backdrop.html'));
   beforeEach(module('template/modal/window.html'));
-  beforeEach(module(function(_$controllerProvider_, _$modalProvider_){
+  beforeEach(module(function(_$controllerProvider_, _$uiModalProvider_){
     $controllerProvider = _$controllerProvider_;
-    $modalProvider = _$modalProvider_;
+    $uiModalProvider = _$uiModalProvider_;
   }));
 
-  beforeEach(inject(function (_$rootScope_, _$document_, _$compile_, _$templateCache_, _$timeout_, _$q_, _$modal_) {
+  beforeEach(inject(function (_$rootScope_, _$document_, _$compile_, _$templateCache_, _$timeout_, _$q_, _$uiModal_) {
     $rootScope = _$rootScope_;
     $document = _$document_;
     $compile = _$compile_;
     $templateCache = _$templateCache_;
     $timeout = _$timeout_;
     $q = _$q_;
-    $modal = _$modal_;
+    $uiModal = _$uiModal_;
   }));
 
   beforeEach(function () {
@@ -101,7 +101,7 @@ describe('$modal', function () {
   });
 
   function open(modalOptions) {
-    var modal = $modal.open(modalOptions);
+    var modal = $uiModal.open(modalOptions);
     $rootScope.$digest();
     return modal;
   }
@@ -244,7 +244,7 @@ describe('$modal', function () {
 
     it('should allow overriding default options in a provider', function () {
 
-      $modalProvider.options.backdrop = false;
+      $uiModalProvider.options.backdrop = false;
       var modal = open({template: '<div>Content</div>'});
 
       expect($document).toHaveModalOpenWithContent('Content', 'div');
@@ -253,7 +253,7 @@ describe('$modal', function () {
 
     it('should accept new objects with default options in a provider', function () {
 
-      $modalProvider.options = {
+      $uiModalProvider.options = {
         backdrop: false
       };
       var modal = open({template: '<div>Content</div>'});
@@ -302,9 +302,9 @@ describe('$modal', function () {
     describe('controller', function () {
 
       it('should accept controllers and inject modal instances', function () {
-        var TestCtrl = function($scope, $modalInstance) {
+        var TestCtrl = function($scope, $uiModalInstance) {
           $scope.fromCtrl = 'Content from ctrl';
-          $scope.isModalInstance = angular.isObject($modalInstance) && angular.isFunction($modalInstance.close);
+          $scope.isModalInstance = angular.isObject($uiModalInstance) && angular.isFunction($uiModalInstance.close);
         };
 
         open({template: '<div>{{fromCtrl}} {{isModalInstance}}</div>', controller: TestCtrl});
@@ -312,9 +312,9 @@ describe('$modal', function () {
       });
 
       it('should accept controllerAs alias', function () {
-        $controllerProvider.register('TestCtrl', function($modalInstance) {
+        $controllerProvider.register('TestCtrl', function($uiModalInstance) {
           this.fromCtrl = 'Content from ctrl';
-          this.isModalInstance = angular.isObject($modalInstance) && angular.isFunction($modalInstance.close);
+          this.isModalInstance = angular.isObject($uiModalInstance) && angular.isFunction($uiModalInstance.close);
         });
 
         open({template: '<div>{{test.fromCtrl}} {{test.isModalInstance}}</div>', controller: 'TestCtrl as test'});
@@ -322,9 +322,9 @@ describe('$modal', function () {
       });
 
       it('should respect the controllerAs property as an alternative for the controller-as syntax', function () {
-        $controllerProvider.register('TestCtrl', function($modalInstance) {
+        $controllerProvider.register('TestCtrl', function($uiModalInstance) {
           this.fromCtrl = 'Content from ctrl';
-          this.isModalInstance = angular.isObject($modalInstance) && angular.isFunction($modalInstance.close);
+          this.isModalInstance = angular.isObject($uiModalInstance) && angular.isFunction($uiModalInstance.close);
         });
 
         open({template: '<div>{{test.fromCtrl}} {{test.isModalInstance}}</div>', controller: 'TestCtrl', controllerAs: 'test'});
@@ -332,9 +332,9 @@ describe('$modal', function () {
       });
 
       it('should allow defining in-place controller-as controllers', function () {
-        open({template: '<div>{{test.fromCtrl}} {{test.isModalInstance}}</div>', controller: function($modalInstance) {
+        open({template: '<div>{{test.fromCtrl}} {{test.isModalInstance}}</div>', controller: function($uiModalInstance) {
           this.fromCtrl = 'Content from ctrl';
-          this.isModalInstance = angular.isObject($modalInstance) && angular.isFunction($modalInstance.close);
+          this.isModalInstance = angular.isObject($uiModalInstance) && angular.isFunction($uiModalInstance.close);
         }, controllerAs: 'test'});
         expect($document).toHaveModalOpenWithContent('Content from ctrl true', 'div');
       });

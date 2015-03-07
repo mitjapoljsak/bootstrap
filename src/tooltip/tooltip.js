@@ -6,10 +6,10 @@
 angular.module( 'ui.bootstrap.tooltip', [ 'ui.bootstrap.position', 'ui.bootstrap.bindHtml' ] )
 
 /**
- * The $tooltip service creates tooltip- and popover-like directives as well as
+ * The $uiTooltip service creates tooltip- and popover-like directives as well as
  * houses global options for them.
  */
-.provider( '$tooltip', function () {
+.provider( '$uiTooltip', function () {
   // The default options tooltip and popover.
   var defaultOptions = {
     placement: 'top',
@@ -31,9 +31,9 @@ angular.module( 'ui.bootstrap.tooltip', [ 'ui.bootstrap.position', 'ui.bootstrap
    * `options({})` allows global configuration of all tooltips in the
    * application.
    *
-   *   var app = angular.module( 'App', ['ui.bootstrap.tooltip'], function( $tooltipProvider ) {
+   *   var app = angular.module( 'App', ['ui.bootstrap.tooltip'], function( $uiTooltipProvider ) {
    *     // place tooltips left instead of top by default
-   *     $tooltipProvider.options( { placement: 'left' } );
+   *     $uiTooltipProvider.options( { placement: 'left' } );
    *   });
    */
 	this.options = function( value ) {
@@ -43,7 +43,7 @@ angular.module( 'ui.bootstrap.tooltip', [ 'ui.bootstrap.position', 'ui.bootstrap
   /**
    * This allows you to extend the set of trigger mappings available. E.g.:
    *
-   *   $tooltipProvider.setTriggers( 'openTrigger': 'closeTrigger' );
+   *   $uiTooltipProvider.setTriggers( 'openTrigger': 'closeTrigger' );
    */
   this.setTriggers = function setTriggers ( triggers ) {
     angular.extend( triggerMap, triggers );
@@ -61,11 +61,11 @@ angular.module( 'ui.bootstrap.tooltip', [ 'ui.bootstrap.position', 'ui.bootstrap
   }
 
   /**
-   * Returns the actual instance of the $tooltip service.
+   * Returns the actual instance of the $uiTooltip service.
    * TODO support multiple triggers
    */
   this.$get = [ '$window', '$compile', '$timeout', '$document', '$position', '$interpolate', function ( $window, $compile, $timeout, $document, $position, $interpolate ) {
-    return function $tooltip ( type, prefix, defaultTriggerShow ) {
+    return function $uiTooltip ( type, prefix, defaultTriggerShow ) {
       var options = angular.extend( {}, defaultOptions, globalOptions );
 
       /**
@@ -73,11 +73,11 @@ angular.module( 'ui.bootstrap.tooltip', [ 'ui.bootstrap.position', 'ui.bootstrap
        *
        * If a trigger is supplied,
        * it is used to show the tooltip; otherwise, it will use the `trigger`
-       * option passed to the `$tooltipProvider.options` method; else it will
+       * option passed to the `$uiTooltipProvider.options` method; else it will
        * default to the trigger supplied to this directive factory.
        *
        * The hide trigger is based on the show trigger. If the `trigger` option
-       * was passed to the `$tooltipProvider.options` method, it will use the
+       * was passed to the `$uiTooltipProvider.options` method, it will use the
        * mapped trigger from `triggerMap` or the passed trigger if the map is
        * undefined; otherwise, it uses the `triggerMap` value of the show
        * trigger; else it will just use the show trigger.
@@ -342,8 +342,8 @@ angular.module( 'ui.bootstrap.tooltip', [ 'ui.bootstrap.position', 'ui.bootstrap
   };
 })
 
-.directive( 'tooltip', [ '$tooltip', function ( $tooltip ) {
-  return $tooltip( 'tooltip', 'tooltip', 'mouseenter' );
+.directive( 'tooltip', [ '$uiTooltip', function ( $uiTooltip ) {
+  return $uiTooltip( 'tooltip', 'tooltip', 'mouseenter' );
 }])
 
 .directive( 'tooltipHtmlUnsafePopup', function () {
@@ -355,6 +355,6 @@ angular.module( 'ui.bootstrap.tooltip', [ 'ui.bootstrap.position', 'ui.bootstrap
   };
 })
 
-.directive( 'tooltipHtmlUnsafe', [ '$tooltip', function ( $tooltip ) {
-  return $tooltip( 'tooltipHtmlUnsafe', 'tooltip', 'mouseenter' );
+.directive( 'tooltipHtmlUnsafe', [ '$uiTooltip', function ( $uiTooltip ) {
+  return $uiTooltip( 'tooltipHtmlUnsafe', 'tooltip', 'mouseenter' );
 }]);
